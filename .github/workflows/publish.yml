@@ -13,7 +13,7 @@ jobs:
       - name: Copy Repository Content
         run: |
           mkdir public
-          cp -r ./* public
+          rsync -av ./* public/ --exclude public
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
