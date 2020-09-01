@@ -1,0 +1,21 @@
+name: Build and Publish Github Pages
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    - uses: actions/checkout@v2
+
+    - name: Copy Repository Content
+      run: |
+        mkdir public
+        cp -r ./* public
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+        publish_dir: ./public
