@@ -19,6 +19,8 @@ jobs:
         with:
           root_file: |
             ${ROOT_FILES}
+        env:
+          ROOT_FILES: ${ROOT_FILES}
 
       - name: Install PDF2HTMLEX And Convert to HTML
         run: |
