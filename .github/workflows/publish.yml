@@ -16,7 +16,7 @@ jobs:
           root_file: |
             week-1/week-1.tex
             week-2/week-2.tex
-          extra_system_packages: "py-pygaments"
+          extra_system_packages: "py-pygments"
           latexmk_shell_escape: true
 
       - name: Install PDF2HTMLEX And Convert to HTML
