@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - 5-tex-to-html-render
 
 jobs:
   deploy:
