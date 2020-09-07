@@ -3,20 +3,39 @@ on:
   push:
     branches:
       - master
+      - 5-tex-to-html-render
 
 jobs:
   deploy:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Get File Names
+        run: |
+          echo "::set-env name=ROOT_FILES::$(ls week-*/week-*.tex)"
+
+      - uses: xu-cheng/latex-action@v2
+        with:
+          root_file: |
+            ${ROOT_FILES}
+
+      - name: Install PDF2HTMLEX And Convert to HTML
+        run: |
+          wget https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb
+          sudo apt install ./pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb
+          for FILE in $(ls week-*/week-*.pdf); do pdf2htmlEX --zoom 1.5 ${FILE}; done 
+
 
       - name: Copy Repository Content
         run: |
           mkdir public
-          rsync -av ./* public/ --exclude public
+          cp -r assets index.html week*.html public
+
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
           publish_dir: ./public
+        if: github.ref == "/ref/head/master"
