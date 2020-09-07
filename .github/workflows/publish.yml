@@ -11,16 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Get File Names
-        run: |
-          echo "::set-env name=ROOT_FILES::$(ls week-*/week-*.tex)"
-
       - uses: xu-cheng/latex-action@v2
         with:
           root_file: |
-            ${ROOT_FILES}
-        env:
-          ROOT_FILES: ${ROOT_FILES}
+            week-1/week-1.tex
+            week-2/week-2.tex
 
       - name: Install PDF2HTMLEX And Convert to HTML
         run: |
